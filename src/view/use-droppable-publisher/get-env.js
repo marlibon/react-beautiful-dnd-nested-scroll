@@ -1,8 +1,11 @@
 // @flow
 import getClosestScrollable from './get-closest-scrollable';
+import getAllScrollablesInAncestry from './get-all-scrollables-in-ancestry';
 
 export type Env = {|
   closestScrollable: ?Element,
+  /** All scroll containers from closest to outermost (for nested scroll support) */
+  scrollablesAncestry: Element[],
   isFixedOnPage: boolean,
 |};
 
@@ -22,10 +25,12 @@ const getIsFixed = (el: ?Element): boolean => {
 
 export default (start: Element): Env => {
   const closestScrollable: ?Element = getClosestScrollable(start);
+  const scrollablesAncestry: Element[] = getAllScrollablesInAncestry(start);
   const isFixedOnPage: boolean = getIsFixed(start);
 
   return {
     closestScrollable,
+    scrollablesAncestry,
     isFixedOnPage,
   };
 };

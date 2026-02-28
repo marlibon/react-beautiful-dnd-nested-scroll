@@ -19,6 +19,7 @@ import type {
   ScrollSize,
 } from '../../types';
 import getScroll from './get-scroll';
+import getCombinedScroll from './get-combined-scroll';
 
 const getClient = (
   targetRef: HTMLElement,
@@ -32,8 +33,28 @@ const getClient = (
   }
 
   // Droppable is not the same as the closest scrollable
+  // (Droppable is INSIDE a scroll container - e.g. ref on inner div, scroll on parent)
+  // Use scroll container's full content dimensions so subject covers entire scrollable area.
+  // Otherwise getBox(ref) returns only the visible viewport and drop zone breaks when scrolled.
   if (targetRef !== closestScrollable) {
-    return base;
+    const scrollBox: BoxModel = getBox(closestScrollable);
+    const scroll = { x: closestScrollable.scrollLeft, y: closestScrollable.scrollTop };
+    const top: number = scrollBox.paddingBox.top - scroll.y;
+    const left: number = scrollBox.paddingBox.left - scroll.x;
+    const paddingBox: Spacing = {
+      top,
+      left,
+      bottom: top + closestScrollable.scrollHeight,
+      right: left + closestScrollable.scrollWidth,
+    };
+    const borderBox: Spacing = expand(paddingBox, scrollBox.border);
+
+    return createBox({  
+      borderBox,
+      margin: scrollBox.margin,
+      border: scrollBox.border,
+      padding: scrollBox.padding,
+    });
   }
 
   // Droppable is scrollable
@@ -103,7 +124,6 @@ export default ({
   const closestScrollable: ?Element = env.closestScrollable;
   const client: BoxModel = getClient(ref, closestScrollable);
   const page: BoxModel = withScroll(client, windowScroll);
-
   const closest: ?Closest = (() => {
     if (!closestScrollable) {
       return null;
@@ -115,10 +135,15 @@ export default ({
       scrollWidth: closestScrollable.scrollWidth,
     };
 
+    // Use combined scroll for nested scroll containers support
+    const scroll = env.scrollablesAncestry.length > 0
+      ? getCombinedScroll(env.scrollablesAncestry)
+      : getScroll(closestScrollable);
+
     return {
       client: frameClient,
       page: withScroll(frameClient, windowScroll),
-      scroll: getScroll(closestScrollable),
+      scroll,
       scrollSize,
       shouldClipSubject,
     };
