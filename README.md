@@ -40,7 +40,7 @@ Replace the package in your `package.json`:
 ```json
 {
   "dependencies": {
-    "react-beautiful-dnd": "npm:react-beautiful-dnd-fork-zagriev@^2.1.1"
+    "react-beautiful-dnd": "npm:react-beautiful-dnd-nested-scroll@13.1.3"
   }
 }
 ```
@@ -48,12 +48,12 @@ Replace the package in your `package.json`:
 Or install directly:
 
 ```bash
-npm install react-beautiful-dnd-fork-zagriev
+npm install react-beautiful-dnd-nested-scroll
 # or
-yarn add react-beautiful-dnd-fork-zagriev
+yarn add react-beautiful-dnd-nested-scroll
 ```
 
-Then use `react-beautiful-dnd-fork-zagriev` wherever you previously imported `react-beautiful-dnd`, or add a resolver/alias so existing imports keep working.
+Then use `react-beautiful-dnd-nested-scroll` wherever you previously imported `react-beautiful-dnd`, or add a resolver/alias so existing imports keep working.
 
 ---
 
@@ -184,4 +184,3 @@ There are a lot of libraries out there that allow for drag and drop interactions
 - [Upgrading](/docs/support/upgrading.md)
 - [Road map](https://github.com/atlassian/react-beautiful-dnd/issues)
 - [Media](/docs/support/media.md)
-
