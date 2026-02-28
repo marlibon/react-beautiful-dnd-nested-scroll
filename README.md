@@ -1,14 +1,6 @@
-## 🔒 Archived
+# react-beautiful-dnd — with Nested Scroll Support
 
-This project is now [archived](https://docs.github.com/en/repositories/archiving-a-github-repository/archiving-repositories) and is [deprecated on `npm`](https://www.npmjs.com/package/react-beautiful-dnd). If you are still using `react-beautiful-dnd`, we have put together some [resources to help you move forward](https://github.com/atlassian/react-beautiful-dnd/issues/2672). To see our ongoing work in the drag and drop problem space, head to [Pragmatic drag and drop](https://github.com/atlassian/pragmatic-drag-and-drop).
-
-We are so grateful to everybody who contributed in big and small ways to this project.
-
-Cheers
-
-<br>
-
----
+> **Drop-in replacement** for `react-beautiful-dnd` with support for nested scroll containers ([#131](https://github.com/atlassian/react-beautiful-dnd/issues/131)).
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/2182637/53611918-54c1ff80-3c24-11e9-9917-66ac3cef513d.png" alt="react beautiful dnd logo" />
@@ -19,14 +11,57 @@ Cheers
 
 **Beautiful** and **accessible** drag and drop for lists with [`React`](https://facebook.github.io/react/)
 
-[![CircleCI branch](https://img.shields.io/circleci/project/github/atlassian/react-beautiful-dnd/master.svg)](https://circleci.com/gh/atlassian/react-beautiful-dnd/tree/master)
-[![npm](https://img.shields.io/npm/v/react-beautiful-dnd.svg)](https://www.npmjs.com/package/react-beautiful-dnd)
-
 ![quote application example](https://user-images.githubusercontent.com/2182637/53614150-efbed780-3c2c-11e9-9204-a5d2e746faca.gif)
 
 [Play with this example if you want!](https://react-beautiful-dnd.netlify.app/iframe.html?selectedKind=board&selectedStory=simple)
 
 </div>
+
+---
+
+## Nested Scroll Containers — Fixed
+
+The original `react-beautiful-dnd` supported only a single level of scroll containers. As described in [issue #131](https://github.com/atlassian/react-beautiful-dnd/issues/131):
+
+> Adding support for n-level deep scroll containers. Currently, only a single level is supported.
+
+**Problem:** When a `<Droppable />` was inside a scroll container (e.g. a column with `overflow: auto`), you could not drop items into the bottom of the list after scrolling — the drop zone did not expand correctly, and the library would emit: _Nested scroll containers are currently not supported_.
+
+**This fork fixes that.** You can now:
+
+- Use Droppables inside scroll containers of any nesting depth
+- Scroll a column while dragging and drop at the bottom
+- Have parent scroll containers without the previous limitations
+
+### Migration from react-beautiful-dnd
+
+Replace the package in your `package.json`:
+
+```json
+{
+  "dependencies": {
+    "react-beautiful-dnd": "npm:react-beautiful-dnd-fork-zagriev@^2.1.1"
+  }
+}
+```
+
+Or install directly:
+
+```bash
+npm install react-beautiful-dnd-fork-zagriev
+# or
+yarn add react-beautiful-dnd-fork-zagriev
+```
+
+Then use `react-beautiful-dnd-fork-zagriev` wherever you previously imported `react-beautiful-dnd`, or add a resolver/alias so existing imports keep working.
+
+---
+
+## About the Original Project
+
+The [original react-beautiful-dnd](https://github.com/atlassian/react-beautiful-dnd) is [archived](https://docs.github.com/en/repositories/archiving-a-github-repository/archiving-repositories) and [deprecated on npm](https://www.npmjs.com/package/react-beautiful-dnd). This fork maintains the nested scroll fix for teams that continue to use it. For new projects, consider [Pragmatic drag and drop](https://github.com/atlassian/pragmatic-drag-and-drop).
+
+---
 
 ## Core characteristics
 
@@ -65,6 +100,7 @@ We have created [a free course on `egghead.io` 🥚](https://egghead.io/courses/
 - [Create scripted drag and drop experiences 🎮](/docs/sensors/sensor-api.md)
 - Allows extensions to support for [any input type you like 🕹](/docs/sensors/sensor-api.md)
 - 🌲 Tree support through the [`@atlaskit/tree`](https://atlaskit.atlassian.com/packages/confluence/tree) package
+- **Nested scroll containers** — a Droppable can be inside one or more scroll containers; drop zones update correctly when scrolling
 - A `<Droppable />` list can be a scroll container (without a scrollable parent) or be the child of a scroll container (that also does not have a scrollable parent)
 - Independent nested lists - a list can be a child of another list, but you cannot drag items from the parent list into a child list
 - Server side rendering (SSR) compatible - see [resetServerContext()](/docs/api/reset-server-context.md)
@@ -149,25 +185,3 @@ There are a lot of libraries out there that allow for drag and drop interactions
 - [Road map](https://github.com/atlassian/react-beautiful-dnd/issues)
 - [Media](/docs/support/media.md)
 
-## Read this in other languages 🌎
-
-- [![kr](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/South-Korea.png) **한글/Korean**](https://github.com/LeeHyungGeun/react-beautiful-dnd-kr)
-- [![ru](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/Russia.png) **На русском/Russian**](https://github.com/vtereshyn/react-beautiful-dnd-ru)
-- [![pt](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/Brazil.png) **Português/Portuguese**](https://github.com/dudestein/react-beautiful-dnd-pt)
-- [![gr](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/Greece.png) **Ελληνικά/Greek**](https://github.com/milvard/react-beautiful-dnd-gr)
-- [![ja](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/Japan.png) **日本語/Japanese**](https://github.com/eltociear/react-beautiful-dnd-ja)
-
-## Creator ✍️
-
-Alex Reardon [@alexandereardon](https://x.com/alexandereardon)
-
-> Alex is no longer personally maintaining this project. The other wonderful maintainers are carrying this project forward.
-
-## Maintainers
-
-- [Daniel Del Core](https://x.com/danieldelcore)
-- Many other [@Atlassian](https://x.com/Atlassian)'s!
-
-## Collaborators 🤝
-
-- Bogdan Chadkin [@IAmTrySound](https://x.com/IAmTrySound)
